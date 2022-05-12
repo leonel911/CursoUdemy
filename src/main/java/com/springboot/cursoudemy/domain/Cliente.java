@@ -1,6 +1,7 @@
 package com.springboot.cursoudemy.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.cursoudemy.domain.enums.TipoCliente;
 
 import javax.persistence.*;
