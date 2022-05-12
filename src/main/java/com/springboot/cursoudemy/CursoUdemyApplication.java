@@ -1,13 +1,8 @@
 package com.springboot.cursoudemy;
 
-import com.springboot.cursoudemy.domain.Categoria;
-import com.springboot.cursoudemy.domain.Cidade;
-import com.springboot.cursoudemy.domain.Estado;
-import com.springboot.cursoudemy.domain.Produto;
-import com.springboot.cursoudemy.repositories.CategoriaRepository;
-import com.springboot.cursoudemy.repositories.CidadeRepository;
-import com.springboot.cursoudemy.repositories.EstadoRepository;
-import com.springboot.cursoudemy.repositories.ProdutoRepository;
+import com.springboot.cursoudemy.domain.*;
+import com.springboot.cursoudemy.domain.enums.TipoCliente;
+import com.springboot.cursoudemy.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +24,12 @@ public class CursoUdemyApplication implements CommandLineRunner {
 
     @Autowired
     private EstadoRepository estadoRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursoUdemyApplication.class, args);
@@ -66,7 +67,17 @@ public class CursoUdemyApplication implements CommandLineRunner {
 
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
-        
+
+        Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+        cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+
+        Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apt 303", "Jardim", "38220834", cli1, c1);
+        Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+
+        cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+        clienteRepository.saveAll(Arrays.asList(cli1));
+        enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
     }
 }
