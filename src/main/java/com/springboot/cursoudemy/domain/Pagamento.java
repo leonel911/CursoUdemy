@@ -1,5 +1,6 @@
 package com.springboot.cursoudemy.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springboot.cursoudemy.domain.enums.EstadoPagamento;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId
