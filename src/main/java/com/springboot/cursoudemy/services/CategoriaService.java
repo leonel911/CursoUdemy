@@ -2,8 +2,10 @@ package com.springboot.cursoudemy.services;
 
 import com.springboot.cursoudemy.domain.Categoria;
 import com.springboot.cursoudemy.repositories.CategoriaRepository;
+import com.springboot.cursoudemy.services.exceptions.DataIntegrityException;
 import com.springboot.cursoudemy.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,5 +30,15 @@ public class CategoriaService {
     public Categoria update(Categoria obj) {
         find(obj.getId());
         return categoriaRepository.save(obj);
+    }
+
+    public void deleteById(Integer id) {
+        find(id);
+        try {
+            categoriaRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
+        }
     }
 }
