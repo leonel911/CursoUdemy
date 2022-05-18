@@ -28,14 +28,14 @@ public class ClienteResource {
         return ResponseEntity.ok().body(obj);
     }
 
-    /* @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {
         Cliente obj = clienteService.fromDTO(objDto);
         obj = clienteService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
-    } */
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
