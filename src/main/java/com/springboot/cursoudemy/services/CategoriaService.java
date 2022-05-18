@@ -1,6 +1,7 @@
 package com.springboot.cursoudemy.services;
 
 import com.springboot.cursoudemy.domain.Categoria;
+import com.springboot.cursoudemy.dtos.CategoriaDTO;
 import com.springboot.cursoudemy.repositories.CategoriaRepository;
 import com.springboot.cursoudemy.services.exceptions.DataIntegrityException;
 import com.springboot.cursoudemy.services.exceptions.ObjectNotFoundException;
@@ -53,5 +54,9 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderedBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderedBy);
         return categoriaRepository.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO objDto) {
+        return new Categoria(objDto.getId(), objDto.getNome());
     }
 }
