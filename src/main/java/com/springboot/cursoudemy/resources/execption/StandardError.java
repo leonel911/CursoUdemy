@@ -1,4 +1,4 @@
-package com.springboot.cursoudemy.resources;
+package com.springboot.cursoudemy.resources.execption;
 
 import java.io.Serializable;
 
