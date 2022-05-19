@@ -3,6 +3,7 @@ package com.springboot.cursoudemy.resources;
 import com.springboot.cursoudemy.domain.Cliente;
 import com.springboot.cursoudemy.domain.Cliente;
 import com.springboot.cursoudemy.dtos.ClienteDTO;
+import com.springboot.cursoudemy.dtos.ClienteNewDTO;
 import com.springboot.cursoudemy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ public class ClienteResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
         Cliente obj = clienteService.fromDTO(objDto);
         obj = clienteService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

@@ -36,6 +36,15 @@ public class ClienteService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
     }
 
+    @Transactional
+    public Cliente insert(Cliente obj) {
+        obj.setId(null);
+        obj = clienteRepository.save(obj);
+        enderecoRepository.saveAll(obj.getEnderecos());
+        return obj;
+    }
+
+
     public Cliente update(Cliente obj) {
         Cliente newObj = find(obj.getId());
         updateData(newObj, obj);
@@ -86,11 +95,5 @@ public class ClienteService {
         newObj.setEmail(obj.getEmail());
     }
 
-    @Transactional
-    public Cliente insert(Cliente obj) {
-        obj.setId(null);
-        obj = clienteRepository.save(obj);
-        enderecoRepository.saveAll(obj.getEnderecos());
-        return obj;
-    }
+
 }
