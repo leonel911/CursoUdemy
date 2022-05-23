@@ -4,13 +4,11 @@ import com.springboot.cursoudemy.domain.ItemPedido;
 import com.springboot.cursoudemy.domain.PagamentoComBoleto;
 import com.springboot.cursoudemy.domain.Pedido;
 import com.springboot.cursoudemy.domain.enums.EstadoPagamento;
-import com.springboot.cursoudemy.repositories.ItemPedidoRepository;
-import com.springboot.cursoudemy.repositories.PagamentoRepository;
-import com.springboot.cursoudemy.repositories.PedidoRepository;
-import com.springboot.cursoudemy.repositories.ProdutoRepository;
+import com.springboot.cursoudemy.repositories.*;
 import com.springboot.cursoudemy.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
@@ -33,15 +31,20 @@ public class PedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
     public Pedido find(Integer id) {
         Optional<Pedido> obj = pedidoRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
     }
 
+    @Transactional
     public Pedido insert(Pedido obj) {
         obj.setId(null);
         obj.setInstante(new Date());
+        obj.setCliente(clienteService.find(obj.getCliente().getId()));
         obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         obj.getPagamento().setPedido(obj);
 
@@ -58,6 +61,7 @@ public class PedidoService {
             ip.setPedido(obj);
         }
         itemPedidoRepository.saveAll(obj.getItens());
+        System.out.println(obj);
         return obj;
     }
 }
