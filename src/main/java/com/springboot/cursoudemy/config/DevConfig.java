@@ -1,6 +1,8 @@
 package com.springboot.cursoudemy.config;
 
 import com.springboot.cursoudemy.services.DBService;
+import com.springboot.cursoudemy.services.EmailService;
+import com.springboot.cursoudemy.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,4 +33,10 @@ public class DevConfig {
         dbService.instantiateTestDataBase();
         return true;
     }
+
+    @Bean
+    public EmailService emailService() {
+        return new SmtpEmailService();
+    }
+
 }
