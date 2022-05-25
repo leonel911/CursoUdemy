@@ -15,8 +15,8 @@ public class SmtpEmailService extends AbstractEmailService{
     @Autowired
     private MailSender mailSender;
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    //@Autowired
+    //private JavaMailSender javaMailSender;
 
     private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
 
@@ -33,10 +33,10 @@ public class SmtpEmailService extends AbstractEmailService{
 
     }
 
-    @Override
+    /*@Override
     public void sendHtmlEmail(MimeMessage msg) {
         LOG.info("Enviando email HTML");
         javaMailSender.send(msg);
         LOG.info("Email enviado");
-    }
+    } */
 }
