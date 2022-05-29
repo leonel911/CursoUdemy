@@ -1,5 +1,6 @@
 package com.springboot.cursoudemy.resources.execption;
 
+import com.springboot.cursoudemy.services.exceptions.AuthorizationExcepetion;
 import com.springboot.cursoudemy.services.exceptions.DataIntegrityException;
 import com.springboot.cursoudemy.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,13 @@ public class ResourceExceptionHandler {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationExcepetion.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationExcepetion e, HttpServletRequest request){
+
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 
 

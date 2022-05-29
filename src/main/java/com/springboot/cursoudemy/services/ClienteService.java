@@ -3,11 +3,14 @@ package com.springboot.cursoudemy.services;
 import com.springboot.cursoudemy.domain.Cidade;
 import com.springboot.cursoudemy.domain.Cliente;
 import com.springboot.cursoudemy.domain.Endereco;
+import com.springboot.cursoudemy.domain.enums.Perfil;
 import com.springboot.cursoudemy.domain.enums.TipoCliente;
 import com.springboot.cursoudemy.dtos.ClienteDTO;
 import com.springboot.cursoudemy.dtos.ClienteNewDTO;
 import com.springboot.cursoudemy.repositories.ClienteRepository;
 import com.springboot.cursoudemy.repositories.EnderecoRepository;
+import com.springboot.cursoudemy.security.UserSS;
+import com.springboot.cursoudemy.services.exceptions.AuthorizationExcepetion;
 import com.springboot.cursoudemy.services.exceptions.DataIntegrityException;
 import com.springboot.cursoudemy.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,12 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public Cliente find(Integer id) {
+
+        UserSS user = UserService.authenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationExcepetion("Acesso negado");
+        }
+
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
