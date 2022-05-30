@@ -1,12 +1,15 @@
 package com.springboot.cursoudemy.services;
 
-import com.springboot.cursoudemy.domain.ItemPedido;
-import com.springboot.cursoudemy.domain.PagamentoComBoleto;
-import com.springboot.cursoudemy.domain.Pedido;
+import com.springboot.cursoudemy.domain.*;
 import com.springboot.cursoudemy.domain.enums.EstadoPagamento;
 import com.springboot.cursoudemy.repositories.*;
+import com.springboot.cursoudemy.security.UserSS;
+import com.springboot.cursoudemy.services.exceptions.AuthorizationExcepetion;
 import com.springboot.cursoudemy.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +40,7 @@ public class PedidoService {
     @Autowired
     private EmailService emailService;
 
+
     public Pedido find(Integer id) {
         Optional<Pedido> obj = pedidoRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -66,5 +70,15 @@ public class PedidoService {
         itemPedidoRepository.saveAll(obj.getItens());
         emailService.sendOrderConfirmationEmail(obj);
         return obj;
+    }
+
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderedBy, String direction) {
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationExcepetion("Acesso negado");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderedBy);
+        Cliente cliente = clienteService.find(user.getId());
+        return pedidoRepository.findByCliente(cliente, pageRequest);
     }
 }
