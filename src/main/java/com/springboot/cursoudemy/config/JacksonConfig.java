@@ -3,6 +3,8 @@ package com.springboot.cursoudemy.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.cursoudemy.domain.PagamentoComBoleto;
 import com.springboot.cursoudemy.domain.PagamentoComCartao;
+import com.springboot.cursoudemy.services.EmailService;
+import com.springboot.cursoudemy.services.SmtpEmailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -22,5 +24,10 @@ public class JacksonConfig {
             }
         };
         return builder;
+    }
+
+    @Bean
+    public EmailService emailService() {
+        return new SmtpEmailService();
     }
 }

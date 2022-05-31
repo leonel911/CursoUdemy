@@ -1,6 +1,5 @@
 package com.springboot.cursoudemy.services;
 
-import com.springboot.cursoudemy.domain.Cliente;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class SmtpEmailService extends AbstractEmailService{
     @Autowired
     private MailSender mailSender;
 
-    //@Autowired
-    //private JavaMailSender javaMailSender;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
 
@@ -28,15 +27,12 @@ public class SmtpEmailService extends AbstractEmailService{
         LOG.info("Email enviado");
     }
 
+
+
     @Override
-    public void sendNewPasswordEmail(Cliente cliente, String newPass) {
-
-    }
-
-    /*@Override
     public void sendHtmlEmail(MimeMessage msg) {
         LOG.info("Enviando email HTML");
         javaMailSender.send(msg);
         LOG.info("Email enviado");
-    } */
+    }
 }

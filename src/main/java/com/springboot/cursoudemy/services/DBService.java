@@ -46,6 +46,9 @@ public class DBService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public void instantiateTestDataBase() throws ParseException {
 
 
@@ -108,7 +111,7 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        Cliente cli1 = new Cliente(null, "Maria Silva", "leonelbasilio1@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
+        Cliente cli1 = new Cliente(null, "Maria Silva", "leonelbasilio911@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
         cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 
         Cliente cli2 = new Cliente(null, "Ana Costa", "leonelbasilio11@gmail.com", "69094489015", TipoCliente.PESSOAFISICA, pe.encode("123"));
@@ -133,6 +136,8 @@ public class DBService {
         Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
         Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
 
+
+
         Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
         ped1.setPagamento(pagto1);
 
@@ -156,6 +161,7 @@ public class DBService {
         p3.getItens().addAll(Arrays.asList(ip2));
 
         itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+        emailService.sendOrderConfirmationHtmlEmail(ped1);
 
         System.out.println("BANCO RODANDO");
     }

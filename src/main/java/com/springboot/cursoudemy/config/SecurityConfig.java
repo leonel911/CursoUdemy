@@ -3,6 +3,8 @@ package com.springboot.cursoudemy.config;
 import com.springboot.cursoudemy.security.JWTAuthenticationFilter;
 import com.springboot.cursoudemy.security.JWTAuthorizationFilter;
 import com.springboot.cursoudemy.security.JWTUtil;
+import com.springboot.cursoudemy.services.EmailService;
+import com.springboot.cursoudemy.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
-            "/clientes/**"
+            "/clientes/**",
+            "/auth/forgot/**"
     };
 
     @Override
@@ -87,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 
 }
