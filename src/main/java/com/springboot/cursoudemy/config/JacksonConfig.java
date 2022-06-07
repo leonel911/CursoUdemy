@@ -26,8 +26,5 @@ public class JacksonConfig {
         return builder;
     }
 
-    @Bean
-    public EmailService emailService() {
-        return new SmtpEmailService();
-    }
+
 }

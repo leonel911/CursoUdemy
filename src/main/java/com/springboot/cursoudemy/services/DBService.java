@@ -46,8 +46,8 @@ public class DBService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
-    @Autowired
-    private EmailService emailService;
+    //@Autowired
+    //private EmailService emailService;
 
     public void instantiateTestDataBase() throws ParseException {
 
@@ -161,7 +161,7 @@ public class DBService {
         p3.getItens().addAll(Arrays.asList(ip2));
 
         itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
-        emailService.sendOrderConfirmationHtmlEmail(ped1);
+        //emailService.sendOrderConfirmationHtmlEmail(ped1);
 
         System.out.println("BANCO RODANDO");
     }

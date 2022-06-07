@@ -88,4 +88,3 @@ public abstract class AbstractEmailService implements EmailService {
         return mimeMessage;
     }
 }
-
